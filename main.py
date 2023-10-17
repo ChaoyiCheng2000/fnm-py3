@@ -5,7 +5,8 @@
 # --------------------------------------------------------
 
 import os
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from config import cfg
 from WGAN_GP import WGAN_GP
 from utils import loadData

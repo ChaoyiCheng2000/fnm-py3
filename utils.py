@@ -30,8 +30,8 @@ class loadData(object):
   
   def __init__(self, batch_size = 20, train_shuffle = True):
     self.batch_size = batch_size
-    self.profile = np.loadtxt(cfg.profile_list, dtype='string', delimiter=',')
-    self.front = np.loadtxt(cfg.front_list, dtype='string', delimiter=',')
+    self.profile = np.loadtxt(cfg.profile_list, dtype='str', delimiter=',')
+    self.front = np.loadtxt(cfg.front_list, dtype='str', delimiter=',')
     
     if(train_shuffle): 
       np.random.shuffle(self.profile)

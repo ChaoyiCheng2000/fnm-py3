@@ -8,8 +8,8 @@ import math
 import numpy as np
 import tensorflow as tf
 from config import cfg
-import tensorflow.contrib.slim as slim
-
+# import tensorflow.contrib.slim as slim
+import tf_slim as slim
 
 def instance_norm(input, name="instance_norm"):
   """Instance normalization"""

@@ -4,13 +4,15 @@
 # Written by Yichen Qian
 # --------------------------------------------------------
 
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
 from PIL import Image
 from config import cfg
 from utils import loadData
 from resnet50 import Resnet50
 from ops import *
-import tensorflow.contrib.slim as slim
+# import tensorflow.contrib.slim as slim
+import tf_slim as slim
 
 epsilon = 1e-9
 
@@ -25,10 +27,11 @@ class WGAN_GP(object):
 
   """
   def __init__(self):
-    self.graph = tf.get_default_graph()
+    self.graph = tf.compat.v1.get_default_graph()
     #with self.graph.as_default():
     self.batch_size = cfg.batch_size
-    self.is_train = tf.placeholder(tf.bool, name='is_train')
+    tf.compat.v1.disable_eager_execution()
+    self.is_train = tf.compat.v1.placeholder(tf.bool, name='is_train')
 
   def build_up(self, profile, front):
     """Build up architecture
@@ -51,17 +54,17 @@ class WGAN_GP(object):
     # Use pretrained model(vgg-face) as encoder of Generator
     self.feature_p = self.face_model.forward(profile,'profile_enc')
     self.feature_f = self.face_model.forward(front, 'front_enc')
-    print 'Face model output feature shape:', self.feature_p[-1].get_shape()
+    print('Face model output feature shape:', self.feature_p[-1].get_shape())
     
     # Decoder front face from vgg feature
     self.gen_p = self.decoder(self.feature_p)
     self.gen_f = self.decoder(self.feature_f, reuse=True)
-    print 'Generator output shape:', self.gen_p.get_shape()
+    print('Generator output shape:', self.gen_p.get_shape())
     
     # Map texture into features again by VGG  
     self.feature_gen_p = self.face_model.forward(self.gen_p,'profile_gen_enc')
     self.feature_gen_f = self.face_model.forward(self.gen_f, 'front_gen_enc')
-    print 'Feature of Generated Image shape:', self.feature_gen_p[-1].get_shape()
+    print('Feature of Generated Image shape:', self.feature_gen_p[-1].get_shape())
     
     # Construct discriminator between generalized front face and ground truth
     self.dr = self.discriminator(front)

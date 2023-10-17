@@ -4,9 +4,9 @@
 # Written by Yichen Qian
 # --------------------------------------------------------
 
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
-flags = tf.app.flags
+flags = tf.compat.v1.flags
 
 ############################
 #    hyper parameters      #
@@ -57,5 +57,5 @@ flags.DEFINE_integer('channel', 3, 'channel of images')
 flags.DEFINE_integer('num_threads', 8, 'number of threads of enqueueing examples')
 
 
-cfg = tf.app.flags.FLAGS
+cfg = tf.compat.v1.flags.FLAGS
 # tf.logging.set_verbosity(tf.logging.INFO)
